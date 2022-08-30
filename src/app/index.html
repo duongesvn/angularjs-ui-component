@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="../node_modules/jexcel/dist/jexcel.css">
+    <link rel="stylesheet" href="../node_modules/jsuites/dist/jsuites.css">
+
+</head>
+<body ng-app="MYAPP">
+    <h1>CUSTOM</h1>
+    <!-- jexcel v4 -->
+    <div ng-controller="index">
+        <h2>{{title}}</h2>
+        <button ng-click="getData()">Get Data</button>
+        <div class="">
+            <div jexcelv4 ng-model="data" id="jexcelv4" cm-ins="jIns" cm-config="jConfig"></div>
+        </div>
+    </div>
+    <!-- / jexcel v4 -->
+
+
+
+    
+    <!-- libs -->
+    <script src="../node_modules/angular/angular.min.js"></script>
+
+    <!-- jexcel -->
+    <script src="../node_modules/jexcel/dist/jexcel.js"></script>
+    <script src="../node_modules/jsuites/dist/jsuites.js"></script>
+    
+    <script src="./app.js"></script>
+    <script src="./components/component.js"></script>
+
+    <!-- screen, controllers -->
+    <script src="./index.js"></script>
+    
+</body>
+</html>
