@@ -2,28 +2,7 @@ app.controller("index",($scope)=>{
     var vm = $scope;
     vm.title = "Jspreadsheet v4"
     vm.data = [
-        {
-            "car": "Jazz",
-            "make": "Honda",
-            "available": "",
-            "photo": "",
-            "stock": false,
-            "quantity": "",
-            "price": "",
-            "amount": "",
-            "color": "",
-        },
-        {
-            "car": "Civic",
-            "make": "Honda",
-            "available": "",
-            "photo": "",
-            "stock": false,
-            "quantity": "",
-            "price": "",
-            "amount": "",
-            "color": "",
-        }
+        {},{},{}
     ];
 
     vm.getData=()=>{
@@ -34,8 +13,9 @@ app.controller("index",($scope)=>{
     vm.jConfig= {
         tableOverflow: true,
         onCellChange:(ins, cell, colName, data)=>{
-            data.amount = parseFloat(data.quantity.replaceAll('.',''))*parseFloat(data.price.replaceAll('.',''));
-
+            if(data.quantity && data.price)
+                data.amount = data.quantity * data.price;
+            vm.getData();
             $scope.$apply()
         },
         columns:[
@@ -57,7 +37,7 @@ app.controller("index",($scope)=>{
                     "Chevrolet",
                     "Chrystler",
                     // (...)
-                  ]
+                ]
             },
             {
                 type: 'calendar',
@@ -98,7 +78,7 @@ app.controller("index",($scope)=>{
                 title:'Amount',
                 name:'amount',
                 mask:'#.##,00 đ',
-                width:80,
+                width:120,
                 decimal:','
             },
             {

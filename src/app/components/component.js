@@ -24,10 +24,12 @@ app.directive('jexcelv4',[
         link: function (scope, element, attrs, ngModel) {
             var table;
             var uuidv4 = this.uuidv4;
+            var toNumber = this.toNumber;
+            var fixData = this.fixData;
             scope.$watch(()=>{
-                for(let e of ngModel.$modelValue){
-                    if(!e.uuid) 
-                        e.uuid=this.uuidv4();
+                for (let e of ngModel.$modelValue) {
+                    if(!e.uuid) e.uuid=this.uuidv4();
+                    fixData(e, scope.cmConfig.columns);
                 }
                 table.setData(ngModel.$modelValue);
             })
@@ -38,8 +40,13 @@ app.directive('jexcelv4',[
                 let newData = instance.jexcel.getJsonRow(y);
                 let cellInfo = scope.cmConfig.columns[parseInt(x)];
                 var cellName = cellInfo.name||x;
-                ngModel.$modelValue[parseInt(y)][cellName] = value;
 
+                if(cellInfo.type == 'numeric')
+                    ngModel.$modelValue[parseInt(y)][cellName] = toNumber(value);
+                else 
+                    ngModel.$modelValue[parseInt(y)][cellName] = value;
+                
+                // callBack
                 if(scope.cmConfig.onCellChange) scope.cmConfig.onCellChange(instance, cell, cellName, ngModel.$modelValue[parseInt(y)]);
             }
              
@@ -66,7 +73,6 @@ app.directive('jexcelv4',[
                 if(ndata.length==0){
                     let item = {uuid:uuidv4()};
                     ngModel.$modelValue.push(item);
-                    scope.$apply();
                 }
             }
              
@@ -129,6 +135,10 @@ app.directive('jexcelv4',[
                 onblur: blur,
                 onfocus: focus,
                 onpaste: paste,
+                style: {
+                    A1:'background-color: orange;',
+                    B1:'background-color: orange;',
+                },
             }
             let config ={...scope.cmConfig};
             Object.assign(config, _event);
@@ -144,6 +154,21 @@ app.directive('jexcelv4',[
             return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
               (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
             );
-        }
+        },
+        toNumber:(data)=> parseFloat(data.replace(/[\.]+/,'').replace(',','.')),
+        fixData:(data, columns)=>{
+            var e = data;
+            for (let index = 0; index < columns.length; index++) {
+                const colInfo = columns[index];
+                if(colInfo.type=='numeric' 
+                    && e[colInfo.name||`${index}`] 
+                    && (typeof e[colInfo.name||`${index}`]) == 'string'){
+                    e[colInfo.name||`${index}`] = this.toNumber(e[colInfo.name||`${index}`]);
+                }
+            }
+        },
+
+        
+
     })
 ])
