@@ -193,12 +193,13 @@ app.directive('sumoselect',[
         },
         link: (scope, element, attrs, ngModel) => {
             
+
             scope.$watch('cmData',()=>{
-                for(let item of scope.cmData){
-                    element[0].sumo.add(item.value, item.text)
-                }
+                // for(let item of scope.cmData){
+                //     element[0].sumo.add(item.value, item.text)
+                // }
+                reloadCb(scope.cmData);
                 element[0].sumo.selectItem(scope.ngModel)
-                console.log('w cmData');
             });
             scope.$watch('ngModel',(data)=>{
                 element[0].sumo.selectItem(data)
@@ -209,19 +210,27 @@ app.directive('sumoselect',[
             var reloadCb = (data)=>{
                 clearTimeout(sd);
                 sd = setTimeout(() => {
-                    
+                    element[0].sumo.removeAll();
+                    element[0].sumo.add('', 'Bỏ chọn');
                     for(let item of data){
-                        element[0].sumo.add(item.value, item.text)
+                        element[0].sumo.add(item.value, item.text);
                     }
+                    
                 }, 500);
             };
 
             //#endregion
+
             
             var cmConfig = {...scope.cmConfig};
             cmConfig.searchFn=(haystack, needle, el)=>{
                 if(cmConfig.searchReload)
                     cmConfig.searchReload(needle, reloadCb);
+                else
+                {
+                    let filterData = scope.cmData.filter(c=> c.value.toLowerCase().indexOf(needle.toLowerCase())!=-1 || c.text.toLowerCase().indexOf(needle.toLowerCase())!=-1);
+                    reloadCb(filterData);
+                }
             }
 
             $(element).SumoSelect(cmConfig);
