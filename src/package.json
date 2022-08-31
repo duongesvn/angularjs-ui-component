@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.8.3",
-    "jexcel": "^4.6.1"
+    "jexcel": "^4.6.1",
+    "jquery": "^3.6.1",
+    "sumoselect": "^3.4.8"
   }
 }

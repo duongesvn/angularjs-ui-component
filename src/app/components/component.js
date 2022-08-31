@@ -171,4 +171,81 @@ app.directive('jexcelv4',[
         
 
     })
+]);
+
+
+app.directive('sumoselect',[
+    '$filter',
+    ()=>({
+        restrict: 'A',
+        require: '?ngModel',
+        scope:{
+            ngModel:            '=',
+            cmData:             '=',
+            cmConfig:           '=',
+            sumoInitialized:    '&',
+            sumoOpening:        '&',
+            sumoOpened:         '&',
+            sumoClosing:        '&',
+            sumoClosed:         '&',
+            sumoCnloaded:       '&',
+
+        },
+        link: (scope, element, attrs, ngModel) => {
+            
+            scope.$watch('cmData',()=>{
+                for(let item of scope.cmData){
+                    element[0].sumo.add(item.value, item.text)
+                }
+                element[0].sumo.selectItem(scope.ngModel)
+                console.log('w cmData');
+            });
+            scope.$watch('ngModel',(data)=>{
+                element[0].sumo.selectItem(data)
+            });
+            
+            //#region func
+            var sd;
+            var reloadCb = (data)=>{
+                clearTimeout(sd);
+                sd = setTimeout(() => {
+                    
+                    for(let item of data){
+                        element[0].sumo.add(item.value, item.text)
+                    }
+                }, 500);
+            };
+
+            //#endregion
+            
+            var cmConfig = {...scope.cmConfig};
+            cmConfig.searchFn=(haystack, needle, el)=>{
+                if(cmConfig.searchReload)
+                    cmConfig.searchReload(needle, reloadCb);
+            }
+
+            $(element).SumoSelect(cmConfig);
+            // // Drop down initialized.
+            // sumo:initialized
+            // // Drop down opening
+            // sumo:opening
+            // // Drop down opened
+            // sumo:opened
+            // // Drop down closing
+            // sumo:closing
+            // // Drop down closed.
+            // sumo:closed
+            // // Drop down unloaded.
+            // sumo:unloaded
+            
+
+            $('select.SlectBox').on('sumo:initialized', scope.sumoInitialized);
+            $('select.SlectBox').on('sumo:opening', scope.sumoOpening);
+            $('select.SlectBox').on('sumo:opened', scope.sumoOpened);
+            $('select.SlectBox').on('sumo:closing', scope.sumoClosing);
+            $('select.SlectBox').on('sumo:closed', scope.sumoClosed);
+            $('select.SlectBox').on('sumo:unloaded', scope.sumoCnloaded);
+            console.log(element[0].sumo);
+        }
+    })
 ])
