@@ -258,3 +258,21 @@ app.directive('sumoselect',[
         }
     })
 ])
+
+
+/// tree view
+app.directive('treeView',[
+    '$filter',
+    ()=>({
+        restrict: 'EA',
+        require: '?ngModel',
+        scope:{
+            cmData:             '=',
+            sumoInitialized:    '&',
+        },
+        link: (scope, element, attrs, ngModel) => {
+            console.log(element);
+
+        }
+    })
+])
