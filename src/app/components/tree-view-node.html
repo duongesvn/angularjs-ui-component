@@ -1,0 +1,6 @@
+<div>
+    <h4>{{$node.title}}</h4>
+</div>
+<div ng-if="hasChild">
+    <tree-view-node ng-repeat="item in $node.children" node="item"></tree-view-node>
+</div>

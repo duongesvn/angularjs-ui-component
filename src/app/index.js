@@ -2239,4 +2239,44 @@ app.controller("index",($scope)=>{
 
 
     //#endregion
+
+    //#region  treeview with template
+    vm.treeData =[
+        {
+            id:'a001', title:'A 001',
+            children: [
+                {
+                    id:'a001-01', title:'A 001 01',
+                },
+                {
+                    id:'a001-02', title:'A 001 02',
+                }
+            ]
+        },
+        {
+            id:'b002', title:'B 002',
+        },
+        {
+            id:'c003', title:'C 003',
+            children: [
+                {
+                    id:'c003-01', title:'C 003 01',
+                    children: [
+                        {
+                            id:'c003-01-01', title:'C 003 01 01',
+                            id:'c003-01-02', title:'C 003 01 02',
+                        }
+                    ]
+                }
+            ]
+        },
+    ];
+    vm.treeViewConfig={
+        nodeClick:(item)=>{
+            console.log(item);
+        }
+    }
+
+    //#endregion
+
 })

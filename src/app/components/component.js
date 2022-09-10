@@ -260,19 +260,47 @@ app.directive('sumoselect',[
 ])
 
 
-/// tree view
+//#region  tree view
 app.directive('treeView',[
     '$filter',
-    ()=>({
+    ($compile)=>({
         restrict: 'EA',
         require: '?ngModel',
         scope:{
             cmData:             '=',
-            sumoInitialized:    '&',
+            cmConfig:           '=',
         },
         link: (scope, element, attrs, ngModel) => {
             console.log(element);
-
-        }
+        },
+        template:'<tree-view-node ng-repeat="item in cmData" node="item" ng-click="cmConfig.nodeClick(item)"></tree-view-node>'
     })
 ])
+
+app.directive('treeViewNode',[
+    '$filter',
+    ($compile)=>({
+        restrict: 'E',
+        scope:{
+            $node:              '=node',
+            cmNodeClick:        '&'
+        },
+        link: (scope, element, attrs, ngModel) => {
+            scope.hasChild = (scope.$node?.children != null && scope.$node?.children.length > 0)
+        },
+        templateUrl:'/app/components/tree-view-node.html'
+        // template:template_treeViewNode
+
+    })
+])
+
+var template_treeViewNode = `
+    <div>
+        <h4>{{$node.title}}</h4>
+    </div>
+    <div ng-if="hasChild">
+        <tree-view-node ng-repeat="item in $node.children" node="item" cm-node-click="cmNodeClick(item)></tree-view-node>
+    </div>
+`;
+
+//#endregion

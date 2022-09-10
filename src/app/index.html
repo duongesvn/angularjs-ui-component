@@ -17,7 +17,7 @@
     <h1>CUSTOM</h1>
     <!-- jexcel v4 -->
     <div ng-controller="index">
-        <h2>{{title}}</h2>
+        <!-- <h2>{{title}}</h2>
         <button ng-click="getData()">Get Data</button>
         <div class="">
             <div jexcelv4 ng-model="data" id="jexcelv4" cm-ins="jIns" cm-config="jConfig"></div>
@@ -27,14 +27,10 @@
         <button ng-click="setSumoData('BAR')">Set ngModel = 'c'</button>
         <div>
             <select name="" id="" sumoselect ng-model="sumoModel" cm-data="sumoData" cm-config="sumoConfig"></select>
-        </div>
+        </div> -->
 
         <h2>Tree view</h2>
-        <tree-view cm-data="lsTree">
-            <template>
-                <p>{{name}}</p>
-            </template>
-        </tree-view>
+        <tree-view cm-data="treeData" cm-config="treeViewConfig"></tree-view>
 
     </div>
     <!-- / jexcel v4 -->
