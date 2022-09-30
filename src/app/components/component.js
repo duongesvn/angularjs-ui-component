@@ -262,8 +262,8 @@ app.directive('sumoselect',[
 
 //#region  tree view
 app.directive('treeView',[
-    '$filter',
-    ($compile)=>({
+    '$filter','ssTemplate',
+    ($compile, ssTemplate)=>({
         restrict: 'EA',
         require: '?ngModel',
         scope:{
@@ -271,22 +271,39 @@ app.directive('treeView',[
             cmConfig:           '=',
         },
         link: (scope, element, attrs, ngModel) => {
-            console.log(element);
+            ssTemplate.treeView(`</br>`)
+            scope.tagName = element[0].tagName;
+            if(element[0].tagName == 'TABLE'){
+                scope.tagName = element[0].tagName;
+                scope.thead = [];
+
+                for(let key in scope.cmData[0]){
+                    if(typeof(scope.cmData[0][key]) == 'object' 
+                        || typeof(scope.cmData[0][key]) == 'function') continue;
+                    scope.thead.push(key);
+                }
+            }
+            if(element[0].tagName == 'TBODY'){
+
+            }
+
         },
-        template:'<tree-view-node ng-repeat="item in cmData" node="item" ng-click="cmConfig.nodeClick(item)"></tree-view-node>'
+        templateUrl:'/app/components/tree-view.html'
+        //template:'<tree-view-node ng-repeat="item in cmData" node="item" ng-click="cmConfig.nodeClick(item)"></tree-view-node>'
     })
 ])
 
 app.directive('treeViewNode',[
-    '$filter',
-    ($compile)=>({
-        restrict: 'E',
+    '$filter','ssTemplate',
+    ($compile, ssTemplate)=>({
+        restrict: 'EA',
         scope:{
             $node:              '=node',
             cmNodeClick:        '&'
         },
         link: (scope, element, attrs, ngModel) => {
-            scope.hasChild = (scope.$node?.children != null && scope.$node?.children.length > 0)
+            scope.hasChild = (scope.$node?.children != null && scope.$node?.children.length > 0);
+            console.log(ssTemplate.treeView());
         },
         templateUrl:'/app/components/tree-view-node.html'
         // template:template_treeViewNode

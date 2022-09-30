@@ -14,7 +14,7 @@
 
 </head>
 <body ng-app="MYAPP">
-    <h1>CUSTOM</h1>
+    <!-- <h1>CUSTOM</h1> -->
     <!-- jexcel v4 -->
     <div ng-controller="index">
         <!-- <h2>{{title}}</h2>
@@ -31,6 +31,14 @@
 
         <h2>Tree view</h2>
         <tree-view cm-data="treeData" cm-config="treeViewConfig"></tree-view>
+        <table tree-view cm-data="treeData" cm-config="treeViewConfig">
+            <thead>
+                <tr>
+                    <td>ab</td>
+                    <td>cd</td>
+                </tr>
+            </thead>
+        </table>
 
     </div>
     <!-- / jexcel v4 -->

@@ -1,1 +1,13 @@
-<tree-view-node ng-repeat="item in cmData" node="item"></tree-view-node>
+<tree-view-node ng-if="tagName == 'TREE-VIEW'" ng-repeat="item in cmData" node="item"></tree-view-node>
+<table ng-if="tagName == 'TABLE'">
+    <thead>
+        <tr>
+            <td ng-repeat="name in thead">{{name}}</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in cmData">
+            <td ng-repeat="name in thead">{{item[name]}}</td>
+        </tr>
+    </tbody>
+</table>
