@@ -76,6 +76,8 @@ from (
             when exchange_type='OUT' then 0-amount
         end amount_n
     from exchange_book 
+    where 
+        strftime('%Y-%m',created_date) = '2022-10'
     union 
     select 
         created_date,
@@ -85,12 +87,11 @@ from (
             when exchange_type='CH' then amount
         end amount_n
     from exchange_book
-    where exchange_type='CH'
+    where 
+        exchange_type='CH'
+        and strftime('%Y-%m',created_date) = '2022-10'
 ) b
 group by 
     strftime('%Y-%m',created_date)
     ,uuid_account 
-
-
-
 
