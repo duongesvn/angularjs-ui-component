@@ -13,6 +13,7 @@
     "angular": "^1.8.3",
     "jexcel": "^4.6.1",
     "jquery": "^3.6.1",
+    "react-native-sqlite-storage": "^6.0.1",
     "sumoselect": "^3.4.8"
   }
 }
